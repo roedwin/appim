@@ -23,27 +23,23 @@ class LoginPage extends StatelessWidget {
       child: Column(children: [
         SafeArea(
             child: Container(
-          height: 200.0,
+          height: 150.0,
         )),
         Container(
           width: size.width * 0.85,
           margin: EdgeInsets.symmetric(vertical: 30.0),
           padding: EdgeInsets.symmetric(vertical: 50.0),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(5.0),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 3.0,
-                    offset: Offset(0.0, 5.0),
-                    spreadRadius: 3.0)
-              ]),
+          // decoration: BoxDecoration(
+          //     color: Colors.white,
+          //     borderRadius: BorderRadius.circular(5.0),
+          //     boxShadow: <BoxShadow>[
+          //       BoxShadow(
+          //           color: Colors.black26,
+          //           blurRadius: 3.0,
+          //           offset: Offset(0.0, 5.0),
+          //           spreadRadius: 3.0)
+          //     ]),
           child: Column(children: [
-            Text(
-              'Ingreso',
-              style: TextStyle(fontSize: 20.0),
-            ),
             SizedBox(
               height: 30.0,
             ),
@@ -74,7 +70,9 @@ class LoginPage extends StatelessWidget {
           child: TextField(
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-                icon: Icon(Icons.alternate_email, color: Colors.deepPurple),
+                //icon: Icon(Icons.alternate_email, color: Colors.deepPurple),
+                filled: true,
+                fillColor: Colors.white,
                 hintText: 'ejemplo@correo.com',
                 labelText: 'Correo electronico',
                 counterText: snapshot.data,
@@ -96,8 +94,10 @@ class LoginPage extends StatelessWidget {
           child: TextField(
             obscureText: true,
             decoration: InputDecoration(
-                icon: Icon(Icons.lock_outline, color: Colors.deepPurple),
+                //icon: Icon(Icons.lock_outline, color: Colors.deepPurple),
                 labelText: 'Contraseña',
+                filled: true,
+                fillColor: Colors.white,
                 counterText: snapshot.data,
                 errorText: _isNull == null ? '' : snapshot.error.toString()),
             onChanged: bloc.changePassword,
@@ -109,7 +109,6 @@ class LoginPage extends StatelessWidget {
 
   Widget _crearBoton(LoginBloc bloc) {
     //formValidStream
-
     return StreamBuilder(
       stream: bloc.formValidStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -118,6 +117,7 @@ class LoginPage extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
             child: Text('Ingresar'),
+            color: Colors.black12,
           ),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
@@ -171,11 +171,9 @@ class LoginPage extends StatelessWidget {
           padding: EdgeInsets.only(top: 80.0),
           child: Column(
             children: [
-              Icon(Icons.person_pin_circle,
-                  color: Colors.blue[700], size: 100.0),
+              Icon(Icons.person_pin_rounded,
+                  color: Colors.blue[700], size: 150.0),
               SizedBox(height: 10.0, width: double.infinity),
-              Text('Yamileth Berrios',
-                  style: TextStyle(color: Colors.white, fontSize: 25.0))
             ],
           ),
         )
