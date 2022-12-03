@@ -1,4 +1,4 @@
-import 'dart:js';
+//import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:appim/src/providers/productos_provider.dart';
@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
           final productos = snapshot.data;
           return ListView.builder(
             itemCount: productos?.length,
-            itemBuilder: (contex, i) => _crearItem(productos![i]),
+            itemBuilder: (contex, i) => _crearItem(contex, productos![i]),
           );
         } else {
           return Center(
@@ -40,11 +40,21 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _crearItem(ProductoModel producto) {
-    return ListTile(
-      title: Text('${producto.titulo} - ${producto.valor}'),
-      subtitle: Text(producto.id.toString()),
-      //onTap: () => Navigator.pushNamed(context, 'producto'),
+  Widget _crearItem(BuildContext context, ProductoModel producto) {
+    return Dismissible(
+      key: UniqueKey(),
+      background: Container(
+        color: Colors.red,
+      ),
+      onDismissed: (direccion) {
+        productosProvider.borrarProducto(producto.id.toString());
+      },
+      child: ListTile(
+        title: Text('${producto.titulo} - ${producto.valor}'),
+        subtitle: Text(producto.id.toString()),
+        onTap: () =>
+            Navigator.pushNamed(context, 'producto', arguments: producto),
+      ),
     );
   }
 
