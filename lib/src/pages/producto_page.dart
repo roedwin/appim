@@ -118,13 +118,17 @@ class _ProductoPageState extends State<ProductoPage> {
     );
   }
 
-  void _submit() {
+  void _submit() async {
     if (formKey.currentState?.validate() == false) return;
     formKey.currentState?.save();
 
     setState(() {
       _guardando = true;
     });
+
+    if (foto != null) {
+      producto.fotoUrl = await productoProvider.subirImagen(foto!);
+    }
 
     if (producto.id == null) {
       productoProvider.crearProducto(producto);
@@ -161,15 +165,19 @@ class _ProductoPageState extends State<ProductoPage> {
   }
 
   _seleccionarFoto() async {
-    XFile pathFoto =
-        await _picker.pickImage(source: ImageSource.gallery) as XFile;
+    _procesarImage(ImageSource.gallery);
+  }
+
+  _tomarFoto() async {
+    _procesarImage(ImageSource.camera);
+  }
+
+  _procesarImage(ImageSource origen) async {
+    XFile pathFoto = await _picker.pickImage(source: origen) as XFile;
     foto = File(pathFoto.path);
     if (foto != null) {
       //
     }
-
     setState(() {});
   }
-
-  _tomarFoto() {}
 }
