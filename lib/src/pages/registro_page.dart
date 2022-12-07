@@ -1,10 +1,10 @@
+import 'package:appim/src/providers/usuario_privider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appim/src/bloc/provider.dart';
-import 'package:appim/src/providers/usuario_privider.dart';
 
-class LoginPage extends StatelessWidget {
-  // const LoginPage({super.key});
+class RegistroPage extends StatelessWidget {
+  // const RegistroPage({super.key});
 
   final usuarioProvider = UsuarioProvider();
 
@@ -44,6 +44,10 @@ class LoginPage extends StatelessWidget {
           //           spreadRadius: 3.0)
           //     ]),
           child: Column(children: [
+            Text(
+              'Crear Cuenta',
+              style: TextStyle(fontSize: 20.0),
+            ),
             SizedBox(
               height: 30.0,
             ),
@@ -59,8 +63,8 @@ class LoginPage extends StatelessWidget {
           ]),
         ),
         TextButton(
-          child: Text('Crear nueva cuenta'),
-          onPressed: () => Navigator.pushReplacementNamed(context, 'registro'),
+          child: Text('¿Ya tienes una cuenta? Login'),
+          onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
         ),
         SizedBox(height: 100.0)
       ]),
@@ -129,7 +133,7 @@ class LoginPage extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
           elevation: 0.0,
-          onPressed: _exitData == true ? () => _login(bloc, context) : null,
+          onPressed: _exitData == true ? () => _register(bloc, context) : null,
           color: Colors.deepPurple,
           textColor: Colors.white,
         );
@@ -137,8 +141,8 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  _login(LoginBloc bloc, BuildContext context) {
-    usuarioProvider.login(bloc.email, bloc.password);
+  _register(LoginBloc bloc, BuildContext context) {
+    usuarioProvider.nuevoUsuario(bloc.email, bloc.password);
     // Navigator.pushReplacementNamed(context, 'home');
   }
 

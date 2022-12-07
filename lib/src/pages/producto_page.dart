@@ -151,7 +151,12 @@ class _ProductoPageState extends State<ProductoPage> {
 
   _mostrarFoto() {
     if (producto.fotoUrl != null) {
-      return Container();
+      return FadeInImage(
+        image: NetworkImage(producto.fotoUrl.toString()),
+        placeholder: AssetImage('assets/jar-loading.gif'),
+        height: 300.0,
+        fit: BoxFit.contain,
+      );
     } else {
       if (foto != null) {
         return Image.file(
@@ -176,7 +181,7 @@ class _ProductoPageState extends State<ProductoPage> {
     XFile pathFoto = await _picker.pickImage(source: origen) as XFile;
     foto = File(pathFoto.path);
     if (foto != null) {
-      //
+      producto.fotoUrl = null;
     }
     setState(() {});
   }
