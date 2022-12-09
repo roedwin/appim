@@ -33,7 +33,7 @@ class _ProductoPageState extends State<ProductoPage> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        title: Text('Productos'),
+        title: Text('Nuevo Usuario'),
         actions: [
           IconButton(
             icon: Icon(Icons.photo_size_select_actual),
@@ -54,6 +54,9 @@ class _ProductoPageState extends State<ProductoPage> {
               children: [
                 _mostrarFoto(),
                 _crearNombre(),
+                _crearTelefono(),
+                _crearCorreo(),
+                _crearCargo(),
                 _crearPrecio(),
                 _crearDisponible(),
                 _crearBoton(),
@@ -70,11 +73,59 @@ class _ProductoPageState extends State<ProductoPage> {
     return TextFormField(
       initialValue: producto.titulo,
       textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(labelText: 'Producto'),
+      decoration: InputDecoration(labelText: 'Usuario'),
       onSaved: (value) => producto.titulo = value.toString(),
       validator: (value) {
         if (value == null || value.isEmpty || value.length < 3) {
-          return 'Ingrese el nombre del producto';
+          return 'Ingrese el nombre de usuario';
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
+  Widget _crearTelefono() {
+    return TextFormField(
+      initialValue: producto.telefono,
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(labelText: 'Telefono'),
+      onSaved: (value) => producto.telefono = value.toString(),
+      validator: (value) {
+        if (value == null || value.isEmpty || value.length < 3) {
+          return 'Ingrese el telefono';
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
+  Widget _crearCorreo() {
+    return TextFormField(
+      initialValue: producto.correo,
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(labelText: 'Correo'),
+      onSaved: (value) => producto.correo = value.toString(),
+      validator: (value) {
+        if (value == null || value.isEmpty || value.length < 3) {
+          return 'Ingrese el correo';
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
+  Widget _crearCargo() {
+    return TextFormField(
+      initialValue: producto.cargo,
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(labelText: 'Cargo'),
+      onSaved: (value) => producto.cargo = value.toString(),
+      validator: (value) {
+        if (value == null || value.isEmpty || value.length < 3) {
+          return 'Ingrese el cargo';
         } else {
           return null;
         }
@@ -85,14 +136,14 @@ class _ProductoPageState extends State<ProductoPage> {
   Widget _crearPrecio() {
     return TextFormField(
       initialValue: producto.valor.toString(),
-      keyboardType: TextInputType.numberWithOptions(decimal: true),
-      decoration: InputDecoration(labelText: 'Precio'),
-      onSaved: (value) => producto.valor = double.parse(value.toString()),
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(labelText: 'Contraseña'),
+      onSaved: (value) => producto.valor = value.toString(),
       validator: (value) {
-        if (value == null || utils.isNumeric(value)) {
-          return null;
+        if (value == null || value.isEmpty || value.length < 3) {
+          return 'Ingrese la contraseña';
         } else {
-          return 'Solo numeros';
+          return null;
         }
       },
     );
@@ -154,15 +205,15 @@ class _ProductoPageState extends State<ProductoPage> {
       return FadeInImage(
         image: NetworkImage(producto.fotoUrl.toString()),
         placeholder: AssetImage('assets/jar-loading.gif'),
-        height: 300.0,
-        fit: BoxFit.contain,
+        height: 200.0,
+        fit: BoxFit.fill,
       );
     } else {
       if (foto != null) {
         return Image.file(
           foto!,
-          fit: BoxFit.cover,
-          height: 300.0,
+          fit: BoxFit.fill,
+          height: 200.0,
         );
       }
       return Image.asset('assets/no-image.png');

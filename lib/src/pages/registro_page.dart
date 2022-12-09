@@ -1,4 +1,5 @@
 import 'package:appim/src/providers/usuario_privider.dart';
+import 'package:appim/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appim/src/bloc/provider.dart';
@@ -141,8 +142,13 @@ class RegistroPage extends StatelessWidget {
     );
   }
 
-  _register(LoginBloc bloc, BuildContext context) {
-    usuarioProvider.nuevoUsuario(bloc.email, bloc.password);
+  _register(LoginBloc bloc, BuildContext context) async {
+    Map info = await usuarioProvider.nuevoUsuario(bloc.email, bloc.password);
+    if (info['ok']) {
+      Navigator.pushReplacementNamed(context, 'home');
+    } else {
+      mostrarAlerta(context, info['mensaje']);
+    }
     // Navigator.pushReplacementNamed(context, 'home');
   }
 

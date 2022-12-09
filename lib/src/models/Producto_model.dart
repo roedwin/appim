@@ -8,14 +8,20 @@ String productoModelToJson(ProductoModel data) => json.encode(data.toJson());
 class ProductoModel {
   String? id;
   String titulo;
-  double valor;
+  String valor;
+  String telefono;
+  String correo;
+  String cargo;
   bool disponible;
   String? fotoUrl;
 
   ProductoModel({
     this.id,
     this.titulo = '',
-    this.valor = 0.0,
+    this.valor = '',
+    this.telefono = '',
+    this.correo = '',
+    this.cargo = '',
     this.disponible = true,
     this.fotoUrl,
   });
@@ -24,6 +30,9 @@ class ProductoModel {
         id: json["id"],
         titulo: json["titulo"],
         valor: json["valor"],
+        telefono: json["telefono"],
+        correo: json["correo"],
+        cargo: json["cargo"],
         disponible: json["disponible"],
         fotoUrl: json["fotoUrl"],
       );
@@ -32,6 +41,9 @@ class ProductoModel {
         // "id": id,
         "titulo": titulo,
         "valor": valor,
+        "telefono": telefono,
+        "correo": correo,
+        "cargo": cargo,
         "disponible": disponible,
         "fotoUrl": fotoUrl,
       };

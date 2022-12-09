@@ -1,12 +1,16 @@
+import 'package:appim/src/preferencias_usuarios/preferencias_usuario.dart';
+import 'package:appim/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:appim/src/bloc/provider.dart';
 import 'package:appim/src/providers/usuario_privider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatelessWidget {
   // const LoginPage({super.key});
 
   final usuarioProvider = UsuarioProvider();
+  final prefs = PreferenciasUsuario();
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +62,10 @@ class LoginPage extends StatelessWidget {
             _crearBoton(bloc)
           ]),
         ),
-        TextButton(
-          child: Text('Crear nueva cuenta'),
-          onPressed: () => Navigator.pushReplacementNamed(context, 'registro'),
-        ),
+        // TextButton(
+        //   child: Text('Crear nueva cuenta'),
+        //   onPressed: () => Navigator.pushReplacementNamed(context, 'registro'),
+        // ),
         SizedBox(height: 100.0)
       ]),
     );
@@ -137,9 +141,14 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  _login(LoginBloc bloc, BuildContext context) {
-    usuarioProvider.login(bloc.email, bloc.password);
-    // Navigator.pushReplacementNamed(context, 'home');
+  _login(LoginBloc bloc, BuildContext context) async {
+    Map info = await usuarioProvider.login(bloc.email, bloc.password);
+
+    if (info['ok']) {
+      Navigator.pushReplacementNamed(context, 'home');
+    } else {
+      mostrarAlerta(context, info['mensaje']);
+    }
   }
 
   Widget _crearFondo(BuildContext context) {

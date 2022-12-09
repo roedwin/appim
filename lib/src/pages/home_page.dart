@@ -1,84 +1,60 @@
-//import 'dart:js';
-
+import 'package:appim/src/bloc/provider.dart';
+import 'package:appim/src/preferencias_usuarios/preferencias_usuario.dart';
+import 'package:appim/src/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:appim/src/providers/productos_provider.dart';
-import 'package:appim/src/models/Producto_model.dart';
 
-import '../bloc/provider.dart';
+class HomePage extends StatefulWidget {
+  static final String routeName = 'home';
 
-class HomePage extends StatelessWidget {
-  //const HomePage({super.key});
-  final productosProvider = ProductosProvider();
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final prefs = PreferenciasUsuario();
+
+  String email = '';
+
+  @override
+  void initState() {
+    super.initState();
+    email = prefs.correo;
+  }
 
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text('Home Page')),
-      body: _crearListado(),
-      floatingActionButton: _crearBoton(context),
+      appBar: AppBar(
+        title: Text('Home Page'),
+        backgroundColor:
+            (prefs.colorSecundario) ? Colors.black : Color(0xff9c4dd1),
+      ),
+      drawer: MenuWidget(),
+      body: _cuerpo(),
     );
   }
 
-  Widget _crearListado() {
-    return FutureBuilder(
-      future: productosProvider.cargarProductos(),
-      builder:
-          (BuildContext context, AsyncSnapshot<List<ProductoModel>> snapshot) {
-        if (snapshot.hasData) {
-          final productos = snapshot.data;
-          return ListView.builder(
-            itemCount: productos?.length,
-            itemBuilder: (contex, i) => _crearItem(contex, productos![i]),
-          );
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
+  Widget _cuerpo() {
+    return GridView.extent(
+      maxCrossAxisExtent: 150,
+      padding: EdgeInsets.all(4),
+      mainAxisSpacing: 0,
+      crossAxisSpacing: 0,
+      children: _gridCompleta(6),
     );
   }
 
-  Widget _crearItem(BuildContext context, ProductoModel producto) {
-    return Dismissible(
-        key: UniqueKey(),
-        background: Container(
-          color: Colors.red,
-        ),
-        onDismissed: (direccion) {
-          productosProvider.borrarProducto(producto.id.toString());
-        },
-        child: Card(
-          child: Column(
-            children: [
-              (producto.fotoUrl == null)
-                  ? Image(image: AssetImage('assets/no-image.png'))
-                  : FadeInImage(
-                      image: NetworkImage(producto.fotoUrl.toString()),
-                      placeholder: AssetImage('assets/jar-loading.gif'),
-                      height: 300.0,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-              ListTile(
-                  title: Text('${producto.titulo} - ${producto.valor}'),
-                  subtitle: Text(producto.id.toString()),
-                  onTap: () => Navigator.pushNamed(
-                        context,
-                        'producto',
-                        arguments: producto,
-                      )),
-            ],
-          ),
-        ));
-  }
-
-  _crearBoton(BuildContext context) {
-    return FloatingActionButton(
-      child: Icon(Icons.add),
-      backgroundColor: Colors.deepPurple,
-      onPressed: () => Navigator.pushNamed(context, 'producto'),
-    );
-  }
+  List<Container> _gridCompleta(int count) => List.generate(
+      count,
+      (i) => Container(
+              child: IconButton(
+            icon: Image.asset('assets/pic${i + 1}.png'),
+            iconSize: 50,
+            onPressed: () {
+              if (i + 1 == 1) {
+                Navigator.pushReplacementNamed(context, 'cobradores');
+              }
+            },
+          )));
 }
